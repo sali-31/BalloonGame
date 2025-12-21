@@ -1,110 +1,77 @@
-# Balloon Game (Balloon Burst)
+# Balloon Burst (2D Unity Game)
 
-Simple 2D balloon–popping game made in Unity for **CISC 3667 – Game Design and Development**.
+Balloon Burst is a fast-paced 2D arcade game where you control Goku, shoot pins, pop balloons for points, and avoid distractors across three levels. Smaller balloons are worth more points — can you beat the high score?
 
-You play as **Goku on Nimbus** on **Supreme Kai’s Planet**, moving left/right at the bottom of the screen and shooting pins upward to pop a moving, growing balloon. DBZ enemies move in the air and can block your shots.
+## 🎮 Play
+https://sali31.itch.io/dragon-ball-balloon-burst
 
+## 🕹️ Controls
+- **Move:** Arrow Keys 
+- **Shoot Pin:** **Space** 
+- **Pause/Resume: **esc**
+
+## ⭐ Scoring
+- Score increases when you **pop balloons**.
+- **Smaller balloon = more points**, larger balloon = fewer points.
+- If the balloon grows too large, the level restarts.
+- High score saves between runs.
+
+## 🧩 Levels
+The game has **3 levels**, each harder than the last:
+- **Level 1:** Basic gameplay + one distractor
+- **Level 2:** More distractors
+- **Level 3:** Faster gameplay + smaller balloon + multiple distractors
+
+## 🔥 Difficulty Modes
+Difficulty is selected from the **Settings** menu.
+
+- **Easy:**saibaman in level 1** **frieza in level 2** **faster balloon + 2 distractors**
+- **Normal:** Adds **Beerus** as an extra distractor in every level
+- **Hard:** Adds **Beerus + SuperBuu** as extra distractors in every level
+
+## 🏆 High Scores
+- Saves the **top scores** across runs
+- Accessible from the main menu
+- Displays scores in descending order
+
+## 🔊 Audio
+- Background music plays across the game
+- Pop sound plays when a balloon is popped
+- **Master volume** is controlled from the Settings slider and saved
+
+## ✨ Animations
+- **Shoot recoil:** Goku does a quick squash/stretch + small bob when firing.
+- **Score Bounce:** Score bounces everytime it increases.
+
+## 🛠️ Built With
+- **Unity (2D)**
+- **TextMeshPro** for UI text
+- WebGL-ready build
+
+## 📁 Scripts (from /Assets)
+These are the main scripts in this project:
+
+- `GameManager.cs` — score handling, UI score display, level transitions, high score recording
+- `GameSettings.cs` — persistent settings (difficulty + volume) using PlayerPrefs
+- `SettingsMenu.cs` — slider/dropdown UI to change and save settings
+- `MainMenu.cs` — main menu navigation and starting the game
+- `UIManager.cs` — opens/closes Instructions / Settings / High Scores panels
+- `MusicManager.cs` — background music that persists across scenes
+- `HighScoreManager.cs` — saves/loads top scores
+- `HighScoresUI.cs` — displays high scores in the menu
+- `PlayerMovement.cs` — player movement controls
+- `PlayerShoot.cs` — pin shooting and triggering recoil
+- `PinMovement.cs` — pin movement direction/speed
+- `PopOnContact.cs` — pin collision with balloon/distractors + scoring + SFX
+- `BalloonMovement.cs` — balloon movement logic
+- `BalloonGrowth.cs` — balloon growth over time
+- `BalloonSpawner.cs` — balloon spawning logic (if used in your levels)
+- `DistractorMove.cs` — distractor movement
+- `DifficultyDistractor.cs` — enables extra distractors based on difficulty
+- `FireRecoil.cs` — recoil animation effect when firing
+- `ScoreBounce.cs` — bounce animation effect on score UI text
+- `PauseMenu.cs` — pause/resume + return-to-menu logic
+- `AudioBoostrap.cs` / `AudioStateDebug.cs` — audio helpers/debug
 ---
-
-## 🎮 Gameplay
-
-- A **balloon** moves horizontally and slowly **grows** over time.
-- If the balloon reaches its **max size**, the **level restarts**.
-- You control **Goku** at the bottom:
-  - Move to line up your shot.
-  - Fire pins straight up to pop the balloon.
-- Enemies (**Saibaman**, **Frieza**) patrol mid-air and can **block pins**, forcing you to reposition.
-- There are **3 levels** with increasing difficulty.
-
----
-
-## 🕹 Controls
-
-**In-game**
-
-- **Move Left:** `←` or `A`
-- **Move Right:** `→` or `D`
-- **Shoot Pin:** `Space` or `Left Ctrl`
-- **Pause / Main Menu:** `Esc`
-
-**Menus**
-
-- Use mouse / trackpad to:
-  - Click **Play Game**
-  - Click **Settings** (difficulty + volume)
-  - Click **Instructions**
-  - Click **High Scores**
-
----
-
-## 🎯 Goals & Scoring
-
-- **Goal:** Pop the balloon before it grows too large.
-- On pop:
-  - You **finish the current level** and move to the next one.
-  - You gain points based on **how small** the balloon was when popped  
-    (smaller balloon → more points).
-- After the last level, your **total score** for the run is saved in a **high score table**.
-
----
-
-## 📈 Difficulty & Levels
-
-**Difficulty (set in Settings menu):**
-
-- **Easy** – slower balloon growth, more forgiving.
-- **Normal** – default behavior.
-- **Hard** – faster growth / more pressure.
-
-**Levels:**
-
-1. **Level 1** – 1 balloon, 1 distractor (Saibaman). Intro.
-2. **Level 2** – 1 balloon, 2 distractors (Saibaman + Frieza).
-3. **Level 3** – harder balloon behavior / timing, same enemies. Final test.
-
----
-
-## 🧠 Main Systems / Scripts
-
-Key scripts (under `Assets/`):
-
-- **Core:**
-  - `GameManager` – score, level changing, restart logic.
-  - `GameSettings` – difficulty / settings.
-  - `HighScoreManager` + `HighScoresUI` – high score saving and display.
-- **Player & Pins:**
-  - `PlayerMovement` – moves Goku left/right.
-  - `PlayerShoot` – spawns and launches pins.
-  - `PinMovement` – moves pins upward, destroys off-screen.
-- **Balloon & Enemies:**
-  - `BalloonMovement` – horizontal motion of the balloon.
-  - `BalloonGrowth` – balloon scaling, failure on max size, scoring on pop.
-  - `DistractorMove` – enemy patrol movement.
-  - `PopOnContact` – collision behavior when pins hit things.
-- **UI:**
-  - `MainMenu`, `UIManager`, `SettingsMenu`, `PauseMenu` – menus, settings, instructions, pause.
-
----
-
-## 🛠 How to Run (Unity)
-
-1. Open **Unity Hub**.
-2. Click **Open**, select the project folder (the one containing `Assets`, `Packages`, `ProjectSettings`).
-3. Open `Assets/Scenes/MainMenu.unity`.
-4. Press **Play** in the Unity editor.
-5. Choose difficulty, read instructions if needed, then click **Play Game**.
-
----
-
-## 📦 WebGL Build
-- Use a simple HTTP server or Unity’s recommended method to host the build folder.
-- Open `index.html` in a modern browser and play the game there.
-
----
-
-## 📄 Credits
-
-- **Developer:** _Sehar Ali_  
-- **Course:** CISC 3667 – Game Design and Development  
-- **Engine:** Unity 2022.3.x  
-- **Note:** Dragon Ball Z characters and imagery belong to their respective rights holders. This is a non-commercial, educational project.
+## 👤 Author
+**Sehar Ali**
