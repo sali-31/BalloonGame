@@ -8,6 +8,7 @@ TagManager:
   - Distractor
   - Enemy
   - pin
+  - ScoreText
   layers:
   - Default
   - TransparentFX

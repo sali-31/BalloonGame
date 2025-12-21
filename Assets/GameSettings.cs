@@ -1,15 +1,13 @@
 using UnityEngine;
-//testchange
+
 public static class GameSettings
 {
-    // 0 = Easy, 1 = Normal, 2 = Hard
     public static int difficultyIndex = 1;
-
-    // Master volume (0–1)
     public static float volume = 1f;
 
     private static bool loaded = false;
 
+    // ✅ Call this at game start (MainMenu) before music plays
     public static void Load()
     {
         if (loaded) return;
@@ -17,6 +15,10 @@ public static class GameSettings
         difficultyIndex = PlayerPrefs.GetInt("DifficultyIndex", 1);
         volume = PlayerPrefs.GetFloat("MasterVolume", 1f);
 
+        // clamp just in case prefs gets corrupted
+        volume = Mathf.Clamp01(volume);
+
+        AudioListener.pause = false;
         AudioListener.volume = volume;
 
         loaded = true;
@@ -27,5 +29,12 @@ public static class GameSettings
         PlayerPrefs.SetInt("DifficultyIndex", difficultyIndex);
         PlayerPrefs.SetFloat("MasterVolume", volume);
         PlayerPrefs.Save();
+    }
+
+    // Optional helper so other scripts can safely apply volume
+    public static void ApplyVolume()
+    {
+        AudioListener.pause = false;
+        AudioListener.volume = Mathf.Clamp01(volume);
     }
 }

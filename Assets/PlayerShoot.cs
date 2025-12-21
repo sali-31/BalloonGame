@@ -1,18 +1,25 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // For Keyboard.current
+using UnityEngine.InputSystem; // Keyboard.current
 
 public class PlayerShoot : MonoBehaviour
 {
-    public GameObject pinPrefab; // Prefab of the pin to shoot
-    public float pinSpeed = 8f;  // Speed of the pin
+    [Header("Pin")]
+    public GameObject pinPrefab;  
+    public float pinSpeed = 8f;
 
-    // NEW: animator for shoot recoil
-    private Animator anim;
+    [Header("Recoil (choose one method)")]
+    public FireRecoil recoil;     
+    private Animator anim;        // Uses your Animator Controller (_PlayerAnim)
+
+    private const string SHOOT_TRIGGER = "Shoot";   
 
     void Start()
     {
-        // Try to get Animator from the same object (Player)
+        
         anim = GetComponent<Animator>();
+
+        if (recoil == null)
+            recoil = GetComponent<FireRecoil>();
     }
 
     void Update()
@@ -20,7 +27,7 @@ public class PlayerShoot : MonoBehaviour
         var keyboard = Keyboard.current;
         if (keyboard == null) return;
 
-        // Fire when player presses Space or Ctrl
+        // Fire when Space or Left Ctrl is pressed
         if (keyboard.spaceKey.wasPressedThisFrame || keyboard.leftCtrlKey.wasPressedThisFrame)
         {
             ShootPin();
@@ -29,10 +36,10 @@ public class PlayerShoot : MonoBehaviour
 
     void ShootPin()
     {
-        // Spawn the pin upright (no prefab tilt)
+        // 1) Spawn the pin
         GameObject pin = Instantiate(pinPrefab, transform.position, Quaternion.identity);
 
-        // Move it straight up
+        // 2) Move it straight up
         var move = pin.GetComponent<PinMovement>();
         if (move != null)
         {
@@ -40,11 +47,26 @@ public class PlayerShoot : MonoBehaviour
             move.speed = pinSpeed;
         }
 
-        // NEW: play shoot recoil animation
+        // 3) Play recoil (Animator first; fallback to FireRecoil script)
+        PlayRecoil();
+    }
+
+    void PlayRecoil()
+    {
+        // Method A (Animator): uses Trigger "Shoot"
         if (anim != null)
         {
-            // assumes clip name is "GokuShoot"
-            anim.Play("GokuShoot", 0, 0f);
+            anim.ResetTrigger(SHOOT_TRIGGER);  // helps if you spam-shoot
+            anim.SetTrigger(SHOOT_TRIGGER);   
+            return;
         }
+
+        if (recoil != null)
+        {
+            recoil.Play();
+            return;
+        }
+
+        Debug.LogWarning("PlayerShoot: No Animator and no FireRecoil found/assigned.");
     }
 }
