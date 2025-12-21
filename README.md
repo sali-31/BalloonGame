@@ -25,7 +25,7 @@ The game has **3 levels**, each harder than the last:
 ## 🔥 Difficulty Modes
 Difficulty is selected from the **Settings** menu.
 
-- **Easy:**saibaman in level 1** **frieza in level 2** **faster balloon + 2 distractors**
+- **Easy:** saibaman in level 1, frieza in level 2, faster balloon + 2 distractors
 - **Normal:** Adds **Beerus** as an extra distractor in every level
 - **Hard:** Adds **Beerus + SuperBuu** as extra distractors in every level
 
